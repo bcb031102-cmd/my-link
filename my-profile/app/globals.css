@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f8faff;
   --foreground: #171717;
+  --mesh-color-1: #ffd1ff;
+  --mesh-color-2: #fad0c4;
+  --mesh-color-3: #e0c3fc;
+  --mesh-color-4: #8ec5fc;
 }
 
 @theme inline {
@@ -14,13 +18,78 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --mesh-color-1: #312e81;
+    --mesh-color-2: #4c1d95;
+    --mesh-color-3: #831843;
+    --mesh-color-4: #1e3a8a;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  /* Mesh gradient fallback */
+  background-image: 
+    radial-gradient(at 0% 0%, var(--mesh-color-1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, var(--mesh-color-2) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, var(--mesh-color-3) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, var(--mesh-color-4) 0px, transparent 50%);
+  background-attachment: fixed;
+  animation: bg-shift 15s ease-in-out infinite alternate;
 }
+
+@keyframes bg-shift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Glassmorphism custom classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass-panel {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Float Animation for Avatar */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pop Animation for Links on load */
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.9) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-pop-in {
+  animation: pop-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0; /* Starts transparent before animation */
+}
+
+/* Link stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
